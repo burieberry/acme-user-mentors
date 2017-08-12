@@ -9,10 +9,16 @@ app.engine('html', nunjucks.render);
 
 app.use(require('morgan')('dev'));
 
+app.use(require('body-parser').json());
 app.use('/', express.static(require('path').join(__dirname, 'node_modules')));
 
+app.use((req, res, next) => {
+  res.locals.path = req.url;
+  next();
+})
+
 app.get('/', (req, res, next) => {
-  res.send('Hello World');
+  res.render('home');
 });
 
 app.use('/users', require('./routes/users'));

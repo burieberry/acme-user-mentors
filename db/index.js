@@ -3,11 +3,11 @@ const conn = require('./conn'),
       User = require('./user'),
       Award = require('./award');
 
+Award.belongsTo(User);
+
 const sync = () => {
   return conn.sync({ force: true });
 }
-
-Award.belongsTo(User);
 
 const seed = () => {
   return Promise.all([

@@ -17,4 +17,23 @@ const User = conn.define('user', {
   }
 });
 
+User.findUsersViewModel = function() {
+  return this.findAll()
+    .then(users => {
+      return users;
+    })
+    .then(awards => {
+      return awards;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+// User.create = function() {}
+// User.destroyById = function() {}
+// User.updateUserFromRequestBody = function() {}
+// User.generateAward = function() {}
+// User.removeAward = function() {}
+
 module.exports = User;

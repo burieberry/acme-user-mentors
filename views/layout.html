@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ACME User Mentors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../bootstrap/dist/css/bootstrap.css">
+</head>
+<body class="container">
+  <h1>ACME User Mentors</h1>
+
+  <nav>
+    <ul class="nav nav-tabs">
+      <li {% if (path === '/') %} class="active" {% endif %}>
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      <li {% if (path === '/users') %} class="active" {% endif %}>
+        <a href="/users" class="nav-link">Users</a>
+      </li>
+    </ul>
+  </nav>
+
+  <form action="/users" method="POST" class="well">
+    <div class="form-group">
+      <input class="form-control" type="text" name="name" placeholder="Enter name">
+    </div>
+
+    <button class="btn btn-primary">Add User</button>
+  </form>
+
+  {% block content %}
+  <!-- content goes here -->
+  {% endblock %}
+
+  </section>
+</body>
+</html>
