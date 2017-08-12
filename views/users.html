@@ -2,12 +2,20 @@
 
 {% block content %}
     <section class="row">
+    {% if users.length === 0 %}
+    <section class="container">
+      <p class="alert alert-warning">No users left.</p>
+    </section>
+    {% endif %}
+
     {% for user in users %}
       <div class="col-md-3">
         <div class="panel panel-default" style="min-height: 300px">
           <div class="panel-heading">
             <p>{{ user.name }}</p>
-            <button class="btn btn-danger btn-sm">Delete</button>
+            <form action="/users/{{ user.id }}?_method=DELETE" method="POST">
+              <button class="btn btn-danger btn-sm">Delete</button>
+            </form>
           </div>
         <div class="panel-body">
           <ul class="list list-unstyled">

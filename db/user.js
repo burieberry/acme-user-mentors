@@ -25,7 +25,14 @@ User.findUsersViewModel = function() {
     .catch(console.error);
 };
 
-// User.destroyById = function() {}
+User.destroyById = function(id) {
+  return this.findById(id)
+    .then(user => {
+      return user.destroy();
+    })
+    .catch(console.error);
+}
+
 // User.updateUserFromRequestBody = function() {}
 // User.generateAward = function() {}
 // User.removeAward = function() {}
