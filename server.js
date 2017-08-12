@@ -17,7 +17,7 @@ app.get('/', (req, res, next) => {
 
 app.use((req, res, next) => {
   const error = new Error('page not found.');
-  res.status(404);
+  error.status = 404;
   next(error);
 });
 
