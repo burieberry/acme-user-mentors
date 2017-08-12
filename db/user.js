@@ -22,7 +22,6 @@ User.findUsersViewModel = function() {
       viewModel.users = users;
       return viewModel;
     })
-    .catch(console.error);
 };
 
 User.destroyById = function(id) {
@@ -30,7 +29,6 @@ User.destroyById = function(id) {
     .then(user => {
       return user.destroy();
     })
-    .catch(console.error);
 }
 
 // User.updateUserFromRequestBody = function() {}

@@ -29,7 +29,7 @@ router.post('/', (req, res, next) => {
 router.delete('/:id', (req, res, next) => {
   User.destroyById(req.params.id)
     .then(redirect(res))
-    .catch( next);
+    .catch(next);
 });
 
 //UPDATE

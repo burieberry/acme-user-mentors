@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  res.status(err.status || 500).send(err.message);
+  res.status(err.status || 500).render('error', { err });
 });
 
 const port = process.env.PORT || 3000;
