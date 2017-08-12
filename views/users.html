@@ -36,8 +36,8 @@
             <ul style="margin: 10px 0">
               {% for award in user.awards %}
                 <li>
-                  {{ award }}
-                  <form action="" method="POST" class="form-group">
+                  {{ award.content }}
+                  <form action="/users/{{ user.id }}/awards/{{ award.awardId }}?_method=DELETE" method="POST" class="form-group">
                     <button class="btn btn-warning btn-xs">Delete Award</button>
                   </form>
                 </li>

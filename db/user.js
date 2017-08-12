@@ -8,8 +8,12 @@ const User = conn.define('user', {
     allowNull: false
   },
   awards: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    defaultValue: []
+    type: Sequelize.ARRAY(Sequelize.JSON),
+    defaultValue: [{ content: '', awardId: {
+      set: function(val) {
+        return val = Sequelize.INTEGER;
+      }
+    }}],
   },
   mentorId: {
     type: Sequelize.INTEGER
@@ -39,8 +43,10 @@ User.destroyById = function(id) {
 User.generateAward = function(id) {
   return this.findById(id)
     .then(user => {
-      console.log(user.awards);
-      user.awards.push(faker.company.catchPhrase());
+      user.awards.push({
+        content: faker.company.catchPhrase(),
+        awardId: Math.round(Math.random() * 1000)
+      });
       user.update({
         awards: user.awards
       })
@@ -48,11 +54,29 @@ User.generateAward = function(id) {
     })
     .then(user => {
       return user.save();
+    });
+}
+
+
+User.removeAward = function(userId, id) {
+  return this.findById(userId)
+    .then(user => {
+      const index = user.awards.findIndex((award) => {
+        if (award.awardId === id * 1) {
+          return award;
+        }
+      });
+      user.awards.splice(index, 1);
+      user.update({
+        awards: user.awards
+      });
+      return user;
     })
-    .catch(console.error)
+    .then(user => {
+      return user.save();
+    });
 }
 
 // User.updateUserFromRequestBody = function() {}
-// User.removeAward = function() {}
 
 module.exports = User;

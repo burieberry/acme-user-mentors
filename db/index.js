@@ -8,11 +8,12 @@ const sync = () => {
 
 const seed = () => {
   let curly, larry, moe, shep;
+  let genAward = require('faker').company.catchPhrase;
 
   return Promise.all([
     // create users
-    User.create({ name: 'Curly', awards: ['Excellence'] }),
-    User.create({ name: 'Larry', awards: [] }),
+    User.create({ name: 'Curly', awards: [] }),
+    User.create({ name: 'Larry', awards: [{ content: genAward(), awardId: 20 }] }),
     User.create({ name: 'Moe', awards: [] }),
     User.create({ name: 'Shep', awards: [] })
   ])
