@@ -11,48 +11,62 @@
     {% for user in users %}
       <div class="col-md-3">
         <div class="panel panel-default" style="min-height: 300px">
+
+        <!-- panel head -->
           <div class="panel-heading">
             <p>{{ user.name }}</p>
             <form action="/users/{{ user.id }}?_method=DELETE" method="POST">
               <button class="btn btn-danger btn-sm">Delete</button>
             </form>
           </div>
+
+        <!-- panel body start -->
         <div class="panel-body">
-          <ul class="list list-unstyled">
-            <li class="list-item">
-              <button class="btn btn-primary btn-sm">Create an award</button>
-            </li>
-          {% if user.mentorId %}
-            <li class="list-item label label-default">Mentored by: {{ user.mentor.name }} </li>
-            <li class="list-item">
-              <form action="" method="POST">
-                <button class="btn btn-warning">Remove Mentor</button>
+          <ul class="list-unstyled">
+            <li>
+              <form action="/users/{{ user.id }}/awards" method="POST">
+                <button class="btn btn-primary btn-sm">Create an award</button>
               </form>
             </li>
+
+
+          <!-- awards section  -->
+          {% if user.awards %}
+          <li>
+            <ul style="margin: 10px 0">
+              {% for award in user.awards %}
+                <li>
+                  {{ award }}
+                  <form action="" method="POST" class="form-group">
+                    <button class="btn btn-warning btn-xs">Delete Award</button>
+                  </form>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
+
+
+          <!-- mentor section -->
+          {% if user.mentorId %}
+          <li style="margin: 10px 0">
+            <p class="label label-default">Mentored by: TK</p>
+          </li>
+          <li>
+            <form action="" method="POST" class="form-group">
+              <button class="btn btn-warning">Remove Mentor</button>
+            </form>
+          </li>
           {% else %}
+          <li>
             <form action="" method="POST" class="well">
               <div class="form-group">
                 <select class="form-control">TK</select>
               </div>
               <button class="btn btn-primary btn-sm">Set Mentor</button>
             </form>
+          </li>
           {% endif %}
-
-          <!-- awards section  -->
-          <!--
-          {% if user.awards %}
-            <ul class="list">
-              {% for award in awards %}
-                <li class="list-item">
-                  <p>{{ award.content }}</p>
-                  <form action="" method="POST">
-                    <button class="btn btn-warning btn-xs">Delete Award</button>
-                  </form>
-                </li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-          -->
           </ul>
         </div>
         </div>

@@ -11,10 +11,10 @@ const seed = () => {
 
   return Promise.all([
     // create users
-    User.create({ name: 'Curly' }),
-    User.create({ name: 'Larry' }),
-    User.create({ name: 'Moe' }),
-    User.create({ name: 'Shep' })
+    User.create({ name: 'Curly', awards: ['Excellence'] }),
+    User.create({ name: 'Larry', awards: [] }),
+    User.create({ name: 'Moe', awards: [] }),
+    User.create({ name: 'Shep', awards: [] })
   ])
   .then(result => {
     return [ curly, larry, moe, shep ] = result;
