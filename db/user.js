@@ -16,19 +16,15 @@ User.belongsTo(User, { as: 'mentor' });
 User.hasMany(User, { as: 'mentees', foreignKey: 'mentorId' });
 
 User.findUsersViewModel = function() {
+  let viewModel = {};
   return this.findAll()
     .then(users => {
-      return users;
+      viewModel.users = users;
+      return viewModel;
     })
-    // .then(awards => {
-    //   return awards;
-    // })
-    .catch(err => {
-      console.log(err);
-    });
+    .catch(console.error);
 };
 
-// User.create = function() {}
 // User.destroyById = function() {}
 // User.updateUserFromRequestBody = function() {}
 // User.generateAward = function() {}

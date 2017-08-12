@@ -13,7 +13,7 @@ const redirect = (res) => {
 router.get('/', (req, res, next) => {
   User.findUsersViewModel()
     .then((viewModel) => {
-      res.render('users', { users: viewModel });
+      res.render('users', viewModel);
     })
     .catch(next);
 });

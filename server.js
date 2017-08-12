@@ -9,7 +9,7 @@ app.engine('html', nunjucks.render);
 
 app.use(require('morgan')('dev'));
 
-app.use(require('body-parser').json());
+app.use(require('body-parser').urlencoded({ extended: false }));
 app.use('/', express.static(require('path').join(__dirname, 'node_modules')));
 
 app.use((req, res, next) => {

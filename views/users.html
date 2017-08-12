@@ -1,22 +1,21 @@
 {% extends "./layout.html" %}
 
 {% block content %}
-  <section class="row">
+    <section class="row">
     {% for user in users %}
       <div class="col-md-3">
-        <div class="panel panel-default">
+        <div class="panel panel-default" style="min-height: 300px">
           <div class="panel-heading">
             <p>{{ user.name }}</p>
             <button class="btn btn-danger btn-sm">Delete</button>
           </div>
         <div class="panel-body">
-
           <ul class="list list-unstyled">
             <li class="list-item">
               <button class="btn btn-primary btn-sm">Create an award</button>
             </li>
-          {% if user.has_mentor %}
-            <li class="list-item label label-default">Mentored by: TK</li>
+          {% if user.mentorId %}
+            <li class="list-item label label-default">Mentored by: {{ user.mentor.name }} </li>
             <li class="list-item">
               <form action="" method="POST">
                 <button class="btn btn-warning">Remove Mentor</button>
@@ -31,6 +30,8 @@
             </form>
           {% endif %}
 
+          <!-- awards section  -->
+          <!--
           {% if user.awards %}
             <ul class="list">
               {% for award in awards %}
@@ -43,10 +44,11 @@
               {% endfor %}
             </ul>
           {% endif %}
-
+          -->
+          </ul>
         </div>
         </div>
       </div>
     {% endfor %}
-  </section>
+    </section>
 {% endblock %}
