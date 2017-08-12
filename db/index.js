@@ -1,9 +1,6 @@
 const Sequelize = require('sequelize');
 const conn = require('./conn'),
-      User = require('./user'),
-      Award = require('./award');
-
-Award.belongsTo(User);
+      User = require('./user');
 
 const sync = () => {
   return conn.sync({ force: true });
@@ -11,31 +8,45 @@ const sync = () => {
 
 const seed = () => {
   return Promise.all([
-    User.create({ name: 'Curly', has_mentor: true, is_mentor: false, awards: 0 }),
-    User.create({ name: 'Larry', has_mentor: true, is_mentor: false, awards: 2 }),
-    User.create({ name: 'Moe', has_mentor: false, is_mentor: true, awards: 3 }),
-    User.create({ name: 'Shep', has_mentor: false, is_mentor: false, awards: 1 })
+    // create users
+    User.create({ name: 'Curly' }),
+    User.create({ name: 'Larry' }),
+    User.create({ name: 'Moe' }),
+    User.create({ name: 'Shep' })
   ])
   .then(([ curly, larry, moe, shep ]) => {
-    return Promise.all([
-      Award.create({ title: 'Excellence', userId: larry.id }),
-      Award.create({ title: 'Greatness', userId: larry.id }),
-      Award.create({ title: 'Punctual', userId: moe.id }),
-      Award.create({ title: 'Amazing', userId: moe.id }),
-      Award.create({ title: 'The Best', userId: moe.id }),
-      Award.create({ title: 'Persistent', userId: shep.id })
-    ])
+    // set mentors
+    curly.mentorId = moe.id,
+    larry.mentorId = moe.id
   })
-  .catch(err => {
-    console.log(err);
-  });
+  .then(() => {
+    const options = {
+      include: [
+        { model: User, as: 'mentee' },
+        { model: User, as: 'mentor' }
+      ]
+    };
+
+    // get the data with associations
+    return Promise.all([
+      User.findById(curly.id, options),
+      User.findById(larry.id, options),
+      User.findById(moe.id, options),
+      User.findById(shep.id, options)
+    ]);
+  })
+  .then(([ curly, larry, moe, shep ]) => {
+    console.log(`moe has ${moe.mentees.length} mentees`);
+    console.log(`curly has a mentor named ${curly.mentor.name}`);
+    console.log(`larry has a mentor named ${larry.mentor.name}`);
+  })
+  .catch(console.error);
 };
 
 module.exports = {
   sync,
   seed,
   models: {
-    User,
-    Award
+    User
   }
 };
