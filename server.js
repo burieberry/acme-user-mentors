@@ -2,6 +2,7 @@ const express = require('express'),
       nunjucks = require('nunjucks'),
       faker = require('faker');
 nunjucks.configure('views', { noCache: true });
+const db = require('./db');
 
 const app = express();
 app.set('view engine', 'html');
@@ -14,6 +15,8 @@ app.use('/', express.static(require('path').join(__dirname, 'node_modules')));
 app.get('/', (req, res, next) => {
   res.send('Hello World');
 });
+
+app.use('/users', require('./routes/users'));
 
 app.use((req, res, next) => {
   const error = new Error('page not found.');
