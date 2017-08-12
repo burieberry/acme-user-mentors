@@ -1,6 +1,5 @@
-const express = require('express'),
-      nunjucks = require('nunjucks'),
-      faker = require('faker');
+const express = require('express');
+const nunjucks = require('nunjucks');
 nunjucks.configure('views', { noCache: true });
 const db = require('./db');
 
@@ -32,4 +31,11 @@ const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
+  db.sync()
+    .then(console.log('synced'))
+    .then(db.seed)
+    .then(console.log('seeded'))
+    .catch(err => {
+      console.log(err);
+    });
 });
