@@ -36,12 +36,8 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`listening on port ${port}`);
   db.sync()
-    .then(console.log('synced'))
     .then(db.seed)
-    .then(console.log('seeded'))
-    .catch(err => {
-      console.log(err);
-    });
+    .then(console.log(`Listening on port ${port}.`))
+    .catch(console.error);
 });

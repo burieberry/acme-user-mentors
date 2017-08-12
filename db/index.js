@@ -7,6 +7,8 @@ const sync = () => {
 }
 
 const seed = () => {
+  let curly, larry, moe, shep;
+
   return Promise.all([
     // create users
     User.create({ name: 'Curly' }),
@@ -14,16 +16,24 @@ const seed = () => {
     User.create({ name: 'Moe' }),
     User.create({ name: 'Shep' })
   ])
-  .then(([ curly, larry, moe, shep ]) => {
+  .then(result => {
+    return [ curly, larry, moe, shep ] = result;
+  })
+  .then(() => {
     // set mentors
-    curly.mentorId = moe.id,
-    larry.mentorId = moe.id
+    curly.mentorId = moe.id;
+    larry.mentorId = moe.id;
+
+    return Promise.all([
+      curly.save(),
+      larry.save()
+    ]);
   })
   .then(() => {
     const options = {
       include: [
-        { model: User, as: 'mentee' },
-        { model: User, as: 'mentor' }
+        { model: User, as: 'mentor' },
+        { model: User, as: 'mentees' }
       ]
     };
 
@@ -36,9 +46,9 @@ const seed = () => {
     ]);
   })
   .then(([ curly, larry, moe, shep ]) => {
-    console.log(`moe has ${moe.mentees.length} mentees`);
-    console.log(`curly has a mentor named ${curly.mentor.name}`);
-    console.log(`larry has a mentor named ${larry.mentor.name}`);
+    console.log(`Moe has ${moe.mentees.length} mentees.`);
+    console.log(`Curly has a mentor named ${curly.mentor.name}.`);
+    console.log(`Larry has a mentor named ${larry.mentor.name}.`);
   })
   .catch(console.error);
 };

@@ -11,6 +11,10 @@ const User = conn.define('user', {
   }
 });
 
+// associations:
+User.belongsTo(User, { as: 'mentor' });
+User.hasMany(User, { as: 'mentees', foreignKey: 'mentorId' });
+
 User.findUsersViewModel = function() {
   return this.findAll()
     .then(users => {
