@@ -6,13 +6,7 @@ const User = conn.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  has_mentor: {
-    type: Sequelize.BOOLEAN
-  },
-  is_mentor: {
-    type: Sequelize.BOOLEAN
-  },
-  awards: {
+  mentorId: {
     type: Sequelize.INTEGER
   }
 });
@@ -22,9 +16,9 @@ User.findUsersViewModel = function() {
     .then(users => {
       return users;
     })
-    .then(awards => {
-      return awards;
-    })
+    // .then(awards => {
+    //   return awards;
+    // })
     .catch(err => {
       console.log(err);
     });
