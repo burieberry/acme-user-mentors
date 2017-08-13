@@ -4,27 +4,27 @@ const conn = require('./conn'),
       Award = require('./award');
 
 const seed = () => {
-  let curly, larry, moe, shep;
+  let moe, larry, susan, jane;
   let genAward = require('faker').company.catchPhrase;
 
   return Promise.all([
     // create users
-    User.create({ name: 'Curly', awards: [] }),
-    User.create({ name: 'Larry', awards: [{ content: genAward(), awardId: 20 }] }),
-    User.create({ name: 'Moe', awards: [] }),
-    User.create({ name: 'Shep', awards: [] })
+    User.create({ name: 'Moe' }),
+    User.create({ name: 'Larry' }),
+    User.create({ name: 'Susan' }),
+    User.create({ name: 'Jane' })
   ])
   .then(result => {
-    return [ curly, larry, moe, shep ] = result;
+    return [ moe, larry, susan, jane ] = result;
   })
   .then(() => {
     // set mentors
-    curly.mentorId = moe.id;
     larry.mentorId = moe.id;
+    susan.mentorId = moe.id;
 
     return Promise.all([
-      curly.save(),
-      larry.save()
+      larry.save(),
+      susan.save()
     ]);
   })
   .then(() => {
@@ -37,16 +37,16 @@ const seed = () => {
 
     // get the data with associations
     return Promise.all([
-      User.findById(curly.id, options),
-      User.findById(larry.id, options),
       User.findById(moe.id, options),
-      User.findById(shep.id, options)
+      User.findById(larry.id, options),
+      User.findById(susan.id, options),
+      User.findById(jane.id, options)
     ]);
   })
-  .then(([ curly, larry, moe, shep ]) => {
+  .then(([ moe, larry, susan, jane ]) => {
     console.log(`Moe has ${moe.mentees.length} mentees.`);
-    console.log(`Curly has a mentor named ${curly.mentor.name}.`);
     console.log(`Larry has a mentor named ${larry.mentor.name}.`);
+    console.log(`Susan has a mentor named ${susan.mentor.name}.`);
   })
   .catch(console.error);
 };
