@@ -28,6 +28,18 @@ const seed = () => {
     ]);
   })
   .then(() => {
+    return Promise.all([
+      Award.create({ content: genAward() }),
+      Award.create({ content: genAward() }),
+      Award.create({ content: genAward() }),
+      Award.create({ content: genAward() }),
+      Award.create({ content: genAward() })
+    ])
+    .then(awards => {
+      console.log(awards[0].dataValues);
+    })
+  })
+  .then(() => {
     const options = {
       include: [
         { model: User, as: 'mentor' },
