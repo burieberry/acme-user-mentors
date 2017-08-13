@@ -8,6 +8,11 @@ const sync = () => {
   return conn.sync({ force: true });
 }
 
+Award.belongsTo(User, { as: 'mentor' });
+Award.belongsTo(User, { as: 'mentees' });
+User.hasMany(Award);
+// User.belongsTo(Award, { constraints: false });
+
 module.exports = {
   sync,
   seed,
