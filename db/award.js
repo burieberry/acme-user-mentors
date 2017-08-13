@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const conn = require('./conn');
 
 const Award = conn.define('award', {
-  title: {
+  content: {
     type: Sequelize.STRING,
     allowNull: false
   }
