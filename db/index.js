@@ -8,10 +8,12 @@ const sync = () => {
   return conn.sync({ force: true });
 }
 
+// associations:
+User.belongsTo(User, { as: 'mentor' });
+User.hasMany(User, { as: 'mentees', foreignKey: 'mentorId' });
+User.hasMany(Award);
 Award.belongsTo(User, { as: 'mentor' });
 Award.belongsTo(User, { as: 'mentees' });
-User.hasMany(Award);
-// User.belongsTo(Award, { constraints: false });
 
 module.exports = {
   sync,

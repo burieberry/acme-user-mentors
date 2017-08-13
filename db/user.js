@@ -1,28 +1,15 @@
 const Sequelize = require('sequelize');
 const conn = require('./conn');
-// const faker = require('faker');
 
 const User = conn.define('user', {
   name: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  // awards: {
-  //   type: Sequelize.ARRAY(Sequelize.JSON),
-  //   defaultValue: [{ content: '', awardId: {
-  //     set: function(val) {
-  //       return val = Sequelize.INTEGER;
-  //     }
-  //   }}],
-  // },
   mentorId: {
     type: Sequelize.INTEGER
   }
 });
-
-// associations:
-User.belongsTo(User, { as: 'mentor' });
-User.hasMany(User, { as: 'mentees', foreignKey: 'mentorId' });
 
 User.findUsersViewModel = function() {
   let viewModel = {};
