@@ -1,20 +1,20 @@
 const Sequelize = require('sequelize');
 const conn = require('./conn');
-const faker = require('faker');
+// const faker = require('faker');
 
 const User = conn.define('user', {
   name: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  awards: {
-    type: Sequelize.ARRAY(Sequelize.JSON),
-    defaultValue: [{ content: '', awardId: {
-      set: function(val) {
-        return val = Sequelize.INTEGER;
-      }
-    }}],
-  },
+  // awards: {
+  //   type: Sequelize.ARRAY(Sequelize.JSON),
+  //   defaultValue: [{ content: '', awardId: {
+  //     set: function(val) {
+  //       return val = Sequelize.INTEGER;
+  //     }
+  //   }}],
+  // },
   mentorId: {
     type: Sequelize.INTEGER
   }
@@ -40,42 +40,42 @@ User.destroyById = function(id) {
     });
 }
 
-User.generateAward = function(id) {
-  return this.findById(id)
-    .then(user => {
-      user.awards.push({
-        content: faker.company.catchPhrase(),
-        awardId: Math.round(Math.random() * 1000)
-      });
-      user.update({
-        awards: user.awards
-      })
-      return user;
-    })
-    .then(user => {
-      return user.save();
-    });
-}
+// User.generateAward = function(id) {
+//   return this.findById(id)
+//     .then(user => {
+//       user.awards.push({
+//         content: faker.company.catchPhrase(),
+//         awardId: Math.round(Math.random() * 1000)
+//       });
+//       user.update({
+//         awards: user.awards
+//       })
+//       return user;
+//     })
+//     .then(user => {
+//       return user.save();
+//     });
+// }
 
 
-User.removeAward = function(userId, id) {
-  return this.findById(userId)
-    .then(user => {
-      const index = user.awards.findIndex((award) => {
-        if (award.awardId === id * 1) {
-          return award;
-        }
-      });
-      user.awards.splice(index, 1);
-      user.update({
-        awards: user.awards
-      });
-      return user;
-    })
-    .then(user => {
-      return user.save();
-    });
-}
+// User.removeAward = function(userId, id) {
+//   return this.findById(userId)
+//     .then(user => {
+//       const index = user.awards.findIndex((award) => {
+//         if (award.awardId === id * 1) {
+//           return award;
+//         }
+//       });
+//       user.awards.splice(index, 1);
+//       user.update({
+//         awards: user.awards
+//       });
+//       return user;
+//     })
+//     .then(user => {
+//       return user.save();
+//     });
+// }
 
 // User.updateUserFromRequestBody = function() {}
 
