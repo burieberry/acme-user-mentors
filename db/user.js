@@ -8,20 +8,7 @@ const User = conn.define('user', {
   },
   mentorId: {
     type: Sequelize.INTEGER
-  },
-  // awardList: {
-  //   type: Sequelize.ARRAY(Sequelize.JSON),
-  //   get() {
-  //     return conn.models.award.findAll({
-  //       where: {
-  //         userId: this.id
-  //       }
-  //     })
-  //     .then(awards => {
-  //       return JSON.stringify(awards);
-  //     });
-  //   }
-  // }
+  }
 });
 
 User.findUsersViewModel = function() {
