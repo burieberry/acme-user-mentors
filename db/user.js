@@ -8,7 +8,20 @@ const User = conn.define('user', {
   },
   mentorId: {
     type: Sequelize.INTEGER
-  }
+  },
+  // awardList: {
+  //   type: Sequelize.ARRAY(Sequelize.JSON),
+  //   get() {
+  //     return conn.models.award.findAll({
+  //       where: {
+  //         userId: this.id
+  //       }
+  //     })
+  //     .then(awards => {
+  //       return JSON.stringify(awards);
+  //     });
+  //   }
+  // }
 });
 
 User.findUsersViewModel = function() {
@@ -16,6 +29,11 @@ User.findUsersViewModel = function() {
   return this.findAll()
     .then(users => {
       viewModel.users = users;
+      return conn.models.award.findAll()
+    })
+    .then(awards => {
+      viewModel.awards = awards;
+      console.log(viewModel.users);
       return viewModel;
     });
 };
