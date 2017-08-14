@@ -29,8 +29,15 @@ User.destroyById = function(id) {
   return this.findById(id)
     .then(user => {
       return user.destroy();
-    });
-}
+    })
+    .then(() => {
+      return conn.models.award.destroy({
+        where: {
+          userId: null
+        }
+      })
+    })
+};
 
 User.generateAward = function(id) {
   return this.findById(id)
@@ -40,7 +47,7 @@ User.generateAward = function(id) {
           return user.addAwards(award);
         });
       });
-}
+};
 
 User.removeAward = function(userId, id) {
   return this.findById(userId)
@@ -51,33 +58,9 @@ User.removeAward = function(userId, id) {
       return conn.models.award.findById(id)
         .then(award => {
           return award.destroy();
-        })
-        .catch(console.error);
-    })
-    .catch(console.error);
-
-  // return conn.models.award.findById(id)
-  //   .then(award => {
-  //     return award.removeAward;
-  //   })
-
-
-    // .then(user => {
-    //   const index = user.awards.findIndex((award) => {
-    //     if (award.awardId === id * 1) {
-    //       return award;
-    //     }
-    //   });
-    //   user.awards.splice(index, 1);
-    //   user.update({
-    //     awards: user.awards
-    //   });
-    //   return user;
-    // })
-    // .then(user => {
-    //   return user.save();
-    // });
-}
+        });
+    });
+};
 
 // User.updateUserFromRequestBody = function() {}
 
