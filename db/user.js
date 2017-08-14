@@ -14,7 +14,12 @@ const User = conn.define('user', {
 
 User.findUsersViewModel = function() {
   let viewModel = {};
-  return this.findAll()
+  return this.findAll({
+    include: [
+      { model: User, as: 'mentor' },
+      { model: User, as: 'mentees' }
+    ]
+  })
     .then(users => {
       viewModel.users = users;
       return conn.models.award.findAll()

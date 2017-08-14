@@ -52,7 +52,7 @@
           <!-- mentor section -->
           {% if user.mentorId %}
           <li style="margin: 10px 0">
-            <p class="label label-default">Mentored by: TK</p>
+            <p class="label label-default">Mentored by: {{ user.mentor.name }} </p>
           </li>
           <li>
             <form action="" method="POST" class="form-group">
