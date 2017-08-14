@@ -44,7 +44,7 @@ User.generateAward = function(id) {
     .then(user => {
       return conn.models.award.create({ content: faker.company.catchPhrase(), userId: user.id })
         .then(award => {
-          return user.addAwards(award);
+          return user.addAward(award);
         });
       });
 };
