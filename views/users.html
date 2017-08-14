@@ -56,6 +56,7 @@
           </li>
           <li>
             <form action="/users/{{ user.id }}?_method=PUT" method="POST" class="form-group">
+              <input type="hidden" name="mentorId" value="{{ user.mentorId }}">
               <button class="btn btn-warning">Remove Mentor</button>
             </form>
           </li>
@@ -71,6 +72,7 @@
                 {% endfor %}
                 </select>
               </div>
+
               <button class="btn btn-primary btn-sm">Set Mentor</button>
             </form>
           </li>

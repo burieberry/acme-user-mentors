@@ -79,6 +79,17 @@ User.removeAward = function(userId, id) {
     });
 };
 
-// User.updateUserFromRequestBody = function() {}
+User.updateUserFromRequestBody = function(id, mentor_id) {
+  console.log(id, mentor_id);
+
+  return this.findById(id)
+    .then(user => {
+      user.mentorId ? user.mentorId = null : user.mentorId = mentor_id;
+      return user.save();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
 
 module.exports = User;
