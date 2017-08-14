@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-const conn = require('./conn');
+const conn = require('./conn'),
+      faker = require('faker');
 
 const User = conn.define('user', {
   name: {
@@ -20,7 +21,6 @@ User.findUsersViewModel = function() {
     })
     .then(awards => {
       viewModel.awards = awards;
-      console.log(viewModel.users);
       return viewModel;
     });
 };
@@ -32,22 +32,15 @@ User.destroyById = function(id) {
     });
 }
 
-// User.generateAward = function(id) {
-//   return this.findById(id)
-//     .then(user => {
-//       user.awards.push({
-//         content: faker.company.catchPhrase(),
-//         awardId: Math.round(Math.random() * 1000)
-//       });
-//       user.update({
-//         awards: user.awards
-//       })
-//       return user;
-//     })
-//     .then(user => {
-//       return user.save();
-//     });
-// }
+User.generateAward = function(id) {
+  return this.findById(id)
+    .then(user => {
+      conn.models.award.create({ content: faker.company.catchPhrase(), userId: user.id })
+        .then(award => {
+          return user.addAwards(award);
+        });
+      });
+}
 
 
 // User.removeAward = function(userId, id) {
