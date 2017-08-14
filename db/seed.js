@@ -32,8 +32,7 @@ const seed = () => {
       Award.create({ content: genAward(), userId: moe.id }),
       Award.create({ content: genAward(), userId: moe.id }),
       Award.create({ content: genAward(), userId: jane.id }),
-      Award.create({ content: genAward(), userId: jane.id }),
-      Award.create({ content: genAward(), userId: susan.id })
+      Award.create({ content: genAward(), userId: jane.id })
     ])
   })
   .then(() => {
@@ -59,9 +58,9 @@ const seed = () => {
     console.log(`Larry has a mentor named ${larry.mentor.name}.`);
 
     Award.bulkCreate([
-      { content: genAward(), userId: moe.id },
-      { content: genAward(), userId: moe.id },
-      { content: genAward(), userId: larry.id }
+      // { content: genAward(), userId: moe.id },
+      // { content: genAward(), userId: moe.id },
+      { content: genAward(), userId: susan.id }
     ])
       .then(() => {
         return moe.getAwards();
