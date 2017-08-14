@@ -10,7 +10,16 @@ const User = conn.define('user', {
   mentorId: {
     type: Sequelize.INTEGER
   }
+}, {
+  validate: {
+    noName() {
+      if (!this.name.length) {
+        throw new Error('Name is required!');
+      }
+    }
+  }
 });
+
 
 User.findUsersViewModel = function() {
   let viewModel = {};
