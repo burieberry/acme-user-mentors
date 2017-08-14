@@ -3,7 +3,7 @@
 {% block content %}
 <section class="container">
   <h2>Error</h2>
-  <p class="alert alert-danger">{{ err }}</p>
+  <p class="alert alert-danger">{{ err.message }}</p>
   <button class="btn btn-default"><a href="/users">Go Back</a></button>
 </section>
 {% endblock %}

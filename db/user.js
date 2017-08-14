@@ -51,6 +51,9 @@ User.destroyById = function(id) {
         }
       })
     })
+    .catch(err => {
+      throw new Error('Not allowed to delete current mentors.');
+    });
 };
 
 User.generateAward = function(id) {
