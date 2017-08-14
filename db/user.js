@@ -35,32 +35,49 @@ User.destroyById = function(id) {
 User.generateAward = function(id) {
   return this.findById(id)
     .then(user => {
-      conn.models.award.create({ content: faker.company.catchPhrase(), userId: user.id })
+      return conn.models.award.create({ content: faker.company.catchPhrase(), userId: user.id })
         .then(award => {
           return user.addAwards(award);
         });
       });
 }
 
+User.removeAward = function(userId, id) {
+  return this.findById(userId)
+    .then(user => {
+      return user.removeAward(id);
+    })
+    .then(() => {
+      return conn.models.award.findById(id)
+        .then(award => {
+          return award.destroy();
+        })
+        .catch(console.error);
+    })
+    .catch(console.error);
 
-// User.removeAward = function(userId, id) {
-//   return this.findById(userId)
-//     .then(user => {
-//       const index = user.awards.findIndex((award) => {
-//         if (award.awardId === id * 1) {
-//           return award;
-//         }
-//       });
-//       user.awards.splice(index, 1);
-//       user.update({
-//         awards: user.awards
-//       });
-//       return user;
-//     })
-//     .then(user => {
-//       return user.save();
-//     });
-// }
+  // return conn.models.award.findById(id)
+  //   .then(award => {
+  //     return award.removeAward;
+  //   })
+
+
+    // .then(user => {
+    //   const index = user.awards.findIndex((award) => {
+    //     if (award.awardId === id * 1) {
+    //       return award;
+    //     }
+    //   });
+    //   user.awards.splice(index, 1);
+    //   user.update({
+    //     awards: user.awards
+    //   });
+    //   return user;
+    // })
+    // .then(user => {
+    //   return user.save();
+    // });
+}
 
 // User.updateUserFromRequestBody = function() {}
 
