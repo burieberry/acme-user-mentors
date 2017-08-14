@@ -35,21 +35,6 @@ const seed = () => {
       Award.create({ content: genAward(), userId: jane.id }),
       Award.create({ content: genAward(), userId: susan.id })
     ])
-    // .then(awards => {
-      // awards[0].userId = awards[0].mentorId = moe.id;
-      // awards[1].userId = awards[1].mentorId = moe.id;
-      // awards[2].userId = jane.id;
-      // awards[3].userId = jane.id;
-      // awards[4].userId = awards[4].menteesId = susan.id;
-
-      // return Promise.all([
-      //   awards[0].save(),
-      //   awards[1].save(),
-      //   awards[2].save(),
-      //   awards[3].save(),
-      //   awards[4].save()
-      // ]);
-    // });
   })
   .then(() => {
     const options = {
@@ -73,18 +58,18 @@ const seed = () => {
   .then(([ moe, larry, susan, jane ]) => {
     console.log(`Larry has a mentor named ${larry.mentor.name}.`);
 
-    // Award.create({ content: genAward(), userId: moe.id })
-    //   .then(award => {
-    //     moe.addAwards(award)
-    //       .then(moe.getAwards())
-    //   })
-    //   .catch(console.error);
-
-    moe.getAwards()
+    Award.bulkCreate([
+      { content: genAward(), userId: moe.id },
+      { content: genAward(), userId: moe.id },
+      { content: genAward(), userId: larry.id }
+    ])
+      .then(() => {
+        return moe.getAwards();
+      })
       .then(awards => {
         console.log(`Moe has ${moe.mentees.length} mentees and ${awards.length} awards.`);
         console.log(`Moe has an award for "${awards[0].content}."`);
-      })
+      });
 
     susan.countAwards()
       .then(count => {
