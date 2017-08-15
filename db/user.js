@@ -12,9 +12,6 @@ const User = conn.define('user', {
         msg: 'Name is required!'
       }
     }
-  },
-  mentorId: {
-    type: Sequelize.INTEGER
   }
 });
 
