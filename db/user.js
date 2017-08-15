@@ -83,7 +83,7 @@ User.updateUserFromRequestBody = function(id, requestBody) {
 
   return this.findById(id)
     .then(user => {
-      user.mentorId ? user.mentorId = null : user.mentorId = requestBody.id;
+      user.mentorId = user.mentorId ? null : requestBody.id;
       return user.save();
     })
     .catch(err => {
