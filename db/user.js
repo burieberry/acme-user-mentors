@@ -77,15 +77,10 @@ User.removeAward = function(userId, id) {
 };
 
 User.updateUserFromRequestBody = function(id, requestBody) {
-  console.log(id, requestBody);
-
   return this.findById(id)
     .then(user => {
       user.mentorId = user.mentorId ? null : requestBody.id;
       return user.save();
-    })
-    .catch(err => {
-      console.log(err.message);
     });
 };
 
