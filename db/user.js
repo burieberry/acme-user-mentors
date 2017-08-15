@@ -57,9 +57,9 @@ User.destroyById = function(id) {
 User.generateAward = function(id) {
   return this.findById(id)
     .then(user => {
-      user.awardCount;
       return conn.models.award.create({ content: faker.company.catchPhrase(), userId: user.id })
         .then(award => {
+          user.increment('awardCount', { by: 1 });
           return user.addAward(award);
         });
       });
@@ -68,7 +68,8 @@ User.generateAward = function(id) {
 User.removeAward = function(userId, id) {
   return this.findById(userId)
     .then(user => {
-      return user.removeAward(id);
+      user.removeAward(id);
+      return user.decrement('awardCount', { by: 1 });
     })
     .then(() => {
       return conn.models.award.findById(id)
