@@ -20,7 +20,6 @@ const User = conn.define('user', {
   }
 });
 
-
 User.findUsersViewModel = function() {
   let viewModel = {};
   return this.findAll({
@@ -79,16 +78,16 @@ User.removeAward = function(userId, id) {
     });
 };
 
-User.updateUserFromRequestBody = function(id, mentor_id) {
-  console.log(id, mentor_id);
+User.updateUserFromRequestBody = function(id, requestBody) {
+  console.log(id, requestBody);
 
   return this.findById(id)
     .then(user => {
-      user.mentorId ? user.mentorId = null : user.mentorId = mentor_id;
+      user.mentorId ? user.mentorId = null : user.mentorId = requestBody.id;
       return user.save();
     })
     .catch(err => {
-      console.log(err);
+      console.log(err.message);
     })
 }
 

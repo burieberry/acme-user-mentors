@@ -64,15 +64,14 @@
           <li>
             <form action="/users/{{ user.id }}?_method=PUT" method="POST" class="well">
               <div class="form-group">
-                <select class="form-control">
+                <select class="form-control" name="id">
                 {% for mentor in users %}
                   {% if mentor.name !== user.name %}
-                  <option>{{ mentor.name }}</option>
+                  <option value="{{ mentor.id }}">{{ mentor.name }}</option>
                   {% endif %}
                 {% endfor %}
                 </select>
               </div>
-
               <button class="btn btn-primary btn-sm">Set Mentor</button>
             </form>
           </li>
