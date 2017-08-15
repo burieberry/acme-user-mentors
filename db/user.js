@@ -5,18 +5,16 @@ const conn = require('./conn'),
 const User = conn.define('user', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        args: [ true ],
+        msg: 'Name is required!'
+      }
+    }
   },
   mentorId: {
     type: Sequelize.INTEGER
-  }
-}, {
-  validate: {
-    noName() {
-      if (!this.name.length) {
-        throw new Error('Name is required!');
-      }
-    }
   }
 });
 
@@ -88,7 +86,7 @@ User.updateUserFromRequestBody = function(id, requestBody) {
     })
     .catch(err => {
       console.log(err.message);
-    })
-}
+    });
+};
 
 module.exports = User;
