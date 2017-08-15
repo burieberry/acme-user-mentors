@@ -51,6 +51,7 @@
 
           <!-- mentor section -->
           {% if user.mentorId %}
+            <!-- {% if user.mentor.awardCount > 1 %} -->
           <li style="margin: 10px 0">
             <p class="label label-default">Mentored by: {{ user.mentor.name }} </p>
           </li>
@@ -60,6 +61,7 @@
               <button class="btn btn-warning">Remove Mentor</button>
             </form>
           </li>
+            <!-- {% endif %} -->
           {% else %}
           <li>
             <form action="/users/{{ user.id }}?_method=PUT" method="POST" class="well">

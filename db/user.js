@@ -48,9 +48,6 @@ User.destroyById = function(id) {
           userId: null
         }
       })
-    })
-    .catch(err => {
-      throw new Error('Not allowed to delete current mentors.');
     });
 };
 
