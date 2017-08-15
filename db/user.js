@@ -85,3 +85,8 @@ User.updateUserFromRequestBody = function(id, requestBody) {
 };
 
 module.exports = User;
+
+// TODO:
+// remove mentor if awardCount < 2
+// write tests
+// set Mentor box should only appear if there're mentors available
