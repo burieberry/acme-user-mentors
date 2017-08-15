@@ -12,6 +12,10 @@ const User = conn.define('user', {
         msg: 'Name is required!'
       }
     }
+  },
+  awardCount: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 });
 
@@ -53,6 +57,7 @@ User.destroyById = function(id) {
 User.generateAward = function(id) {
   return this.findById(id)
     .then(user => {
+      user.awardCount;
       return conn.models.award.create({ content: faker.company.catchPhrase(), userId: user.id })
         .then(award => {
           return user.addAward(award);
