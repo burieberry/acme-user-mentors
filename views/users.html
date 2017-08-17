@@ -60,7 +60,6 @@
               <button class="btn btn-warning">Remove Mentor</button>
             </form>
           </li>
-            <!-- {% endif %} -->
           {% else %}
           <li>
             <form action="/users/{{ user.id }}?_method=PUT" method="POST" class="well">
@@ -68,9 +67,9 @@
                 <select class="form-control" name="id">
                 {% for mentor in users %}
                   {% if mentor.name !== user.name %}
-                  {% if mentor.awardCount > 1 %}
-                  <option value="{{ mentor.id }}">{{ mentor.name }}</option>
-                  {% endif %}
+                    {% if mentor.awardCount > 1 %}
+                    <option value="{{ mentor.id }}">{{ mentor.name }}</option>
+                    {% endif %}
                   {% endif %}
                 {% endfor %}
                 </select>
