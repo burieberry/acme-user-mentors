@@ -21,17 +21,17 @@ const User = conn.define('user', {
 
 User.findUsersViewModel = function() {
   let viewModel = {};
-  return this.findAll({
-    include: [
-      { model: User, as: 'mentor' },
-      { model: User, as: 'mentees' }
-    ]
-  })
-    .then(users => {
+  return Promise.all([
+    this.findAll({
+      include: [
+        { model: User, as: 'mentor' },
+        { model: User, as: 'mentees' }
+      ]
+    }),
+    conn.models.award.findAll()
+  ])
+    .then(([ users, awards ]) => {
       viewModel.users = users;
-      return conn.models.award.findAll()
-    })
-    .then(awards => {
       viewModel.awards = awards;
       return viewModel;
     });
@@ -65,9 +65,28 @@ User.generateAward = function(id) {
 User.removeAward = function(userId, id) {
   return this.findById(userId)
     .then(user => {
-      user.removeAward(id);
-      return user.decrement('awardCount', { by: 1 });
+      user.decrement('awardCount', { by: 1 });
+      return user.removeAward(id);
     })
+    // .then(user => {
+
+        // .then((results) => {
+        //   User.update(
+        //     { mentorId: null },
+        //     { where: {
+        //       mentorId: user.mentorId
+        //     }}
+        //   )
+        // })
+        // .then((users) => {
+        //   users.map((user) => {
+        //     user.update({})
+        //     user.mentorId = null;
+        //     return user.save();
+        //   })
+        // });
+      // }
+    // })
     .then(() => {
       return conn.models.award.findById(id)
         .then(award => {
