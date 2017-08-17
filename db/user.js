@@ -68,25 +68,21 @@ User.removeAward = function(userId, id) {
       user.decrement('awardCount', { by: 1 });
       return user.removeAward(id);
     })
-    // .then(user => {
-
-        // .then((results) => {
-        //   User.update(
-        //     { mentorId: null },
-        //     { where: {
-        //       mentorId: user.mentorId
-        //     }}
-        //   )
-        // })
-        // .then((users) => {
-        //   users.map((user) => {
-        //     user.update({})
-        //     user.mentorId = null;
-        //     return user.save();
-        //   })
-        // });
-      // }
-    // })
+    .then(() => {
+      this.findById(userId, {
+        include: [
+          { model: User, as: 'mentees' }
+        ]
+      })
+      .then(user => {
+        if (user.awardCount < 2 && user.mentees) {
+          user.mentees.map((mentee) => {
+            mentee.mentorId = null;
+            return mentee.save();
+          })
+        }
+      })
+    })
     .then(() => {
       return conn.models.award.findById(id)
         .then(award => {
@@ -106,6 +102,5 @@ User.updateUserFromRequestBody = function(id, requestBody) {
 module.exports = User;
 
 // TODO:
-// remove mentor if awardCount < 2
 // write tests
 // set Mentor box should only appear if there're mentors available
