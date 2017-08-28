@@ -12,8 +12,7 @@ const sync = () => {
 User.belongsTo(User, { as: 'mentor' });
 User.hasMany(User, { as: 'mentees', foreignKey: 'mentorId' });
 User.hasMany(Award);
-Award.belongsTo(User, { as: 'mentor' });
-Award.belongsTo(User, { as: 'mentees' });
+Award.belongsTo(User);
 
 module.exports = {
   sync,

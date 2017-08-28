@@ -6,6 +6,8 @@ const Award = conn.define('award', {
     type: Sequelize.STRING,
     allowNull: false
   }
+}, {
+  timestamps: false
 });
 
 module.exports = Award;

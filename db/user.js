@@ -17,6 +17,8 @@ const User = conn.define('user', {
     type: Sequelize.INTEGER,
     defaultValue: 0
   }
+}, {
+  timestamps: false
 });
 
 User.findUsersViewModel = function() {

@@ -50,9 +50,9 @@ const seed = () => {
       User.findById(larry.id, options),
       User.findById(susan.id, options),
       User.findById(jane.id, options),
-      Award.findById(moe.id, options),
-      Award.findById(jane.id, options),
-      Award.findById(susan.id, options)
+      Award.findById(moe.id),
+      Award.findById(jane.id),
+      Award.findById(susan.id)
     ]);
   })
   .then(([ moe, larry, susan, jane ]) => {
