@@ -12,10 +12,6 @@ const User = conn.define('user', {
         msg: 'Name is required!'
       }
     }
-  },
-  awardCount: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0
   }
 }, {
   timestamps: false
@@ -56,41 +52,28 @@ User.destroyById = function(id) {
 User.generateAward = function(id) {
   return this.findById(id)
     .then(user => {
-      return conn.models.award.create({ content: faker.company.catchPhrase(), userId: user.id })
-        .then(award => {
-          user.increment('awardCount', { by: 1 });
-          return user.addAward(award);
-        });
-      });
+      return conn.models.award.create({
+          content: faker.company.catchPhrase(),
+          userId: user.id
+        })
+      })
 };
 
-User.removeAward = function(userId, id) {
-  return this.findById(userId)
+User.removeAward = function(userId, awardId) {
+  return conn.models.award.destroy({ where: { id: awardId }})
+    .then(() => {
+      return User.findById(userId, {
+        include: [ conn.models.award ]
+      })
+    })
     .then(user => {
-      user.decrement('awardCount', { by: 1 });
-      return user.removeAward(id);
+      if (user.awards.length < 2) {
+        return User.update(
+          { mentorId: null },
+          { where: { mentorId: userId }}
+        )
+      }
     })
-    .then(() => {
-      this.findById(userId, {
-        include: [
-          { model: User, as: 'mentees' }
-        ]
-      })
-      .then(user => {
-        if (user.awardCount < 2 && user.mentees) {
-          user.mentees.map((mentee) => {
-            mentee.mentorId = null;
-            return mentee.save();
-          })
-        }
-      })
-    })
-    .then(() => {
-      return conn.models.award.findById(id)
-        .then(award => {
-          return award.destroy();
-        });
-    });
 };
 
 User.updateUserFromRequestBody = function(id, requestBody) {
@@ -102,7 +85,3 @@ User.updateUserFromRequestBody = function(id, requestBody) {
 };
 
 module.exports = User;
-
-// TODO:
-// write tests
-// set Mentor box should only appear if there're mentors available

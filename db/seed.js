@@ -40,7 +40,8 @@ const seed = () => {
     const options = {
       include: [
         { model: User, as: 'mentor' },
-        { model: User, as: 'mentees' }
+        { model: User, as: 'mentees' },
+        { model: Award }
       ]
     };
 
@@ -57,7 +58,7 @@ const seed = () => {
   })
   .then(([ moe, larry, susan, jane ]) => {
     console.log(`Larry has a mentor named ${larry.mentor.name}.`);
-    console.log(`Susan has a mentor named ${susan.mentor.name} and ${susan.awardCount} award.`);
+    console.log(`Susan has a mentor named ${susan.mentor.name} and ${susan.awards.length} award.`);
 
     moe.getAwards()
       .then(awards => {
