@@ -1,0 +1,12 @@
+<ul style="margin: 10px 0; padding: 0 0 0 15px">
+  {% for award in awards %}
+    {% if award.userId == user.id %}
+    <li>
+      {{ award.content }}
+      <form action="/users/{{ user.id }}/awards/{{ award.id }}?_method=DELETE" method="POST" class="form-group">
+        <button class="btn btn-warning btn-xs">Delete Award</button>
+      </form>
+    </li>
+    {% endif %}
+  {% endfor %}
+</ul>

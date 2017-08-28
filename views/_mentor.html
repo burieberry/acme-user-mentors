@@ -1,0 +1,29 @@
+{% if user.mentorId %}
+<li style="margin: 10px 0">
+  <p class="label label-default">Mentored by: {{ user.mentor.name }} </p>
+</li>
+<li>
+  <form action="/users/{{ user.id }}?_method=PUT" method="POST" class="form-group">
+    <input type="hidden" name="mentorId" value="{{ user.mentorId }}">
+    <button class="btn btn-warning">Remove Mentor</button>
+  </form>
+</li>
+
+{% elif (mentors.length === 1) and (mentors[0].id === user.id) %}
+
+{% else %}
+<li>
+  <form action="/users/{{ user.id }}?_method=PUT" method="POST" class="well">
+    <div class="form-group">
+      <select class="form-control" name="id">
+        {% for mentor in mentors %}
+          {% if mentor.id !== user.id %}
+          <option value="{{ mentor.id }}">{{ mentor.name }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+    <button class="btn btn-primary btn-sm">Set Mentor</button>
+  </form>
+</li>
+{% endif %}

@@ -29,59 +29,24 @@
               </form>
             </li>
 
-
           <!-- awards section  -->
           {% if awards %}
-          <li>
-            <ul style="margin: 10px 0; padding: 0 0 0 15px">
-              {% for award in awards %}
-                {% if award.userId == user.id %}
-                <li>
-                  {{ award.content }}
-                  <form action="/users/{{ user.id }}/awards/{{ award.id }}?_method=DELETE" method="POST" class="form-group">
-                    <button class="btn btn-warning btn-xs">Delete Award</button>
-                  </form>
-                </li>
-                {% endif %}
-              {% endfor %}
-            </ul>
-          </li>
+            <li>
+            {% include "./_awards.html" %}
+            </li>
           {% endif %}
-
 
           <!-- mentor section -->
-          {% if user.mentorId %}
-          <li style="margin: 10px 0">
-            <p class="label label-default">Mentored by: {{ user.mentor.name }} </p>
-          </li>
-          <li>
-            <form action="/users/{{ user.id }}?_method=PUT" method="POST" class="form-group">
-              <input type="hidden" name="mentorId" value="{{ user.mentorId }}">
-              <button class="btn btn-warning">Remove Mentor</button>
-            </form>
-          </li>
-          {% else %}
-          <li>
-            <form action="/users/{{ user.id }}?_method=PUT" method="POST" class="well">
-              <div class="form-group">
-                <select class="form-control" name="id">
-                {% for mentor in users %}
-                  {% if mentor.name !== user.name %}
-                    {% if mentor.awardCount > 1 %}
-                    <option value="{{ mentor.id }}">{{ mentor.name }}</option>
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-                </select>
-              </div>
-              <button class="btn btn-primary btn-sm">Set Mentor</button>
-            </form>
-          </li>
-          {% endif %}
+          {% if mentors.length %}
+            <li>
+            {% include "./_mentor.html" %}
+            </li>
           </ul>
+          {% endif %}
         </div>
         </div>
       </div>
     {% endfor %}
+
     </section>
 {% endblock %}

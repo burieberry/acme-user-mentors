@@ -26,11 +26,13 @@ User.findUsersViewModel = function() {
         { model: User, as: 'mentees' }
       ]
     }),
-    conn.models.award.findAll()
+    conn.models.award.findAll(),
+    this.findAvailableMentors()
   ])
-    .then(([ users, awards ]) => {
+    .then(([ users, awards, mentors ]) => {
       viewModel.users = users;
       viewModel.awards = awards;
+      viewModel.mentors = mentors;
       return viewModel;
     });
 };
@@ -82,6 +84,18 @@ User.updateUserFromRequestBody = function(id, requestBody) {
       user.mentorId = user.mentorId ? null : requestBody.id;
       return user.save();
     });
+};
+
+User.findAvailableMentors = function() {
+  return User.findAll({
+      include: [ conn.models.award ]
+    })
+    .then(users => {
+      const mentorList = users.filter(user => {
+        return user.awards.length > 1;
+      })
+      return mentorList;
+    })
 };
 
 module.exports = User;
